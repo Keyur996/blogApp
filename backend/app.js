@@ -9,13 +9,15 @@ const errorHandler = require("./middlewares/error");
 // app
 const app = express();
 
-require('./utils/dbConnect')().then(() => {
-  console.log('database Connected Successfully !!');
-}).catch(err => next(err));
+require("./utils/dbConnect")()
+  .then(() => {
+    console.log("database Connected Successfully !!");
+  })
+  .catch((err) => next(err));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use('/images', express.static(path.join('backend/images')));
+app.use("/images", express.static(path.join("backend/images")));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -30,7 +32,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/api/posts", require('./routes/posts'));
+app.use("/api/posts", require("./routes/posts"));
 
 app.use(errorHandler);
 
