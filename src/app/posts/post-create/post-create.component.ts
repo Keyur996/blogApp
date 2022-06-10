@@ -1,5 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { AbstractControl, FormControl, FormGroup, Validators } from "@angular/forms";
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import { mimeType } from "src/app/validators/mime-type.validator";
 import { Post } from "../post.model";
@@ -22,7 +27,7 @@ export class PostCreateComponent implements OnInit {
     title: "",
     content: "",
     id: null,
-    image: null
+    image: null,
   };
 
   constructor(
@@ -42,11 +47,11 @@ export class PostCreateComponent implements OnInit {
           .subscribe((result: { message: string; data: any }) => {
             this.post = result.data;
             this.postForm.setValue({
-              'title': this.post.title,
-              'content': this.post.content,
-              'image': this.post.image
+              title: this.post.title,
+              content: this.post.content,
+              image: this.post.image,
             });
-            this.imagePreview = this.post.image
+            this.imagePreview = this.post.image;
           });
       } else {
         this.mode = "create";
@@ -66,7 +71,7 @@ export class PostCreateComponent implements OnInit {
         Validators.minLength(3),
       ]),
       content: new FormControl(null, [Validators.required]),
-      image: new FormControl(null, [Validators.required], [mimeType])
+      image: new FormControl(null, [Validators.required], [mimeType]),
     });
   }
 
@@ -74,12 +79,12 @@ export class PostCreateComponent implements OnInit {
     const file = (event.target as HTMLInputElement).files[0];
     const fileReader = new FileReader();
     this.postForm.patchValue({
-      'image': file
+      image: file,
     });
-    this.postForm.get('image').updateValueAndValidity();
+    this.postForm.get("image").updateValueAndValidity();
     fileReader.onload = () => {
-      this.imagePreview = fileReader.result as string
-    }
+      this.imagePreview = fileReader.result as string;
+    };
     fileReader.readAsDataURL(file);
   }
 
@@ -89,10 +94,10 @@ export class PostCreateComponent implements OnInit {
     }
     console.log("postForm", this.postForm);
     if (this.mode === "edit" && this.post.id) {
-      const post: Post = { 
+      const post: Post = {
         ...this.postForm.value,
-        'id': this.post.id 
-      }
+        id: this.post.id,
+      };
       this.postsService.updatePost(post);
     } else {
       this.postsService.addPost(

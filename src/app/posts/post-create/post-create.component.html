@@ -8,17 +8,28 @@
         name="title"
         placeholder="Post Title"
       />
-      <mat-error *ngIf="getControl('title').hasError('required')">Please enter a post title.</mat-error>
+      <mat-error *ngIf="getControl('title').hasError('required')">
+        Please enter a post title.
+      </mat-error>
     </mat-form-field>
     <div>
       <button type="button" mat-stroked-button (click)="filePicker.click()">
         Pick Image
       </button>
-      <input type="file" #filePicker (change)="imagePicked($event)"/>
-      <div class="image-preview" *ngIf="imagePreview && !getControl('image').hasError('invalidMimeType')">
-        <img [src]="imagePreview" [alt]="this.postForm.get('title').value" accept="image/*">
+      <input type="file" #filePicker (change)="imagePicked($event)" />
+      <div
+        class="image-preview"
+        *ngIf="imagePreview && !getControl('image').hasError('invalidMimeType')"
+      >
+        <img
+          [src]="imagePreview"
+          [alt]="this.postForm.get('title').value"
+          accept="image/*"
+        />
       </div>
-      <mat-error *ngIf="getControl('image').hasError('invalidMimeType')">Invalid file type.</mat-error>
+      <mat-error *ngIf="getControl('image').hasError('invalidMimeType')">
+        Invalid file type.
+      </mat-error>
     </div>
     <mat-form-field>
       <textarea
@@ -28,7 +39,9 @@
         name="content"
         placeholder="Post Content"
       ></textarea>
-      <mat-error *ngIf="getControl('content').hasError('required')">Please enter a post title.</mat-error>
+      <mat-error *ngIf="getControl('content').hasError('required')"
+        >Please enter a post title.</mat-error
+      >
     </mat-form-field>
     <button
       mat-raised-button
