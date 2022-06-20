@@ -9,6 +9,8 @@ import {
   MatButtonModule,
   MatToolbarModule,
   MatExpansionModule,
+  MatPaginatorModule,
+  MatProgressSpinnerModule
 } from "@angular/material";
 
 import { AppComponent } from "./app.component";
@@ -35,6 +37,8 @@ import { AppRoutingModule } from "./app-routing.module";
     MatToolbarModule,
     MatExpansionModule,
     HttpClientModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent],

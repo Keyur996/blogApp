@@ -10,7 +10,7 @@ router
   .route("")
   .get(postController.getPosts)
   .post(
-    uploader("image"),
+    uploader.single("image"),
     postController.uploadFile,
     postController.createPost
   );
@@ -18,7 +18,7 @@ router
 router
   .route("/:id")
   .get(postController.getPost)
-  .patch(uploader("image"), postController.uploadFile, postController.updateOne)
+  .patch(uploader.single("image"), postController.uploadFile, postController.updateOne)
   .delete(postController.deletePost);
 
 module.exports = router;

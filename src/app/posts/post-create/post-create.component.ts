@@ -32,8 +32,7 @@ export class PostCreateComponent implements OnInit {
 
   constructor(
     public postsService: PostsService,
-    private route: ActivatedRoute,
-    private router: Router
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -106,7 +105,6 @@ export class PostCreateComponent implements OnInit {
         this.postForm.value.image
       );
     }
-    this.router.navigate(["/"]);
     this.postForm.reset();
   }
 }

@@ -31,13 +31,10 @@ const multerFilter = (req, file, cb) => {
     cb(error, !!isValid);
 }
 
-const uploader = (fieldName) => {
-    const upload = multer({
+const uploader =  multer({
         storage: getStorage(),
         fileFilter: multerFilter
-    });
-    return upload.single(fieldName);
-}
+});
 
 module.exports = { 
     uploader: uploader

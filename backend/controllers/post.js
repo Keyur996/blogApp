@@ -4,7 +4,7 @@ const Post = require("./../models/post");
 const asyncHandler = require("express-async-handler");
 const ErrorResponse = require("./../utils/errorResponse");
 const _ = require("lodash");
-const { getPureType } = require("../utils/utils");
+const ApiFeatures = require("../utils/apiFeatures");
 
 exports.uploadFile = asyncHandler(async (req, res, next) => {
   const url = `${req.protocol}://${req.get("host")}`;
@@ -14,6 +14,10 @@ exports.uploadFile = asyncHandler(async (req, res, next) => {
   _.forEach(req.body || {}, (_value, key) => {
     req.body[key] = JSON.parse(_value);
   });
+  if(req.body.image) {
+    req.body.imagePath = req.body.image;
+    delete req.body.image;
+  }
   next();
 });
 
@@ -70,16 +74,23 @@ exports.getPost = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.getPosts = (req, res, next) => {
-  Post.find()
-    .then((documents) => {
-      res.status(200).json({
-        message: "Posts fetched successfully!",
-        posts: documents,
-      });
-    })
-    .catch((err) => next(err));
-};
+exports.getPosts = asyncHandler(async (req, res) => {
+  const feature = new ApiFeatures(Post.find(), req.query)
+            .filter()
+            .sort()
+            .fields()
+            .paginate();
+
+  const postcountPromise = Post.countDocuments(feature.findQuery);
+
+  const [ count, docs ] = await Promise.all([ postcountPromise , feature.query ]);
+
+  res.status(200).json({
+    success: true,
+    count: count,
+    posts: docs
+  })
+});
 
 exports.deletePost = (req, res, next) => {
   Post.deleteOne({ _id: req.params.id })
