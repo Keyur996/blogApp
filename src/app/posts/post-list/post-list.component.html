@@ -16,11 +16,13 @@
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
-<mat-paginator [length]="totalPosts"
-              [pageSize]="postsPerPage"
-              [pageSizeOptions]="pageSizeOptions"
-              (page)="pageChanged($event)"
-              aria-label="Select page">
+<mat-paginator
+  [length]="totalPosts"
+  [pageSize]="postsPerPage"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="pageChanged($event)"
+  aria-label="Select page"
+>
 </mat-paginator>
 <p class="info-text mat-body-1" *ngIf="posts.length <= 0">
   No posts added yet!

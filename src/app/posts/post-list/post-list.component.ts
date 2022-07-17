@@ -25,16 +25,18 @@ export class PostListComponent implements OnInit, OnDestroy {
     this.postsService.getPosts(this.currentPage, this.postsPerPage);
     this.postsSub = this.postsService
       .getPostUpdateListener()
-      .subscribe(({ posts , count }: { posts: Post[], count: number }) => {
+      .subscribe(({ posts, count }: { posts: Post[]; count: number }) => {
         this.posts = posts;
         this.totalPosts = count;
       });
   }
 
   onDelete(postId: string) {
-    this.postsService.deletePost(postId).subscribe((res: { message: string, data: null | undefined }) => {
-      this.postsService.getPosts(this.currentPage, this.postsPerPage);
-    });
+    this.postsService
+      .deletePost(postId)
+      .subscribe((res: { message: string; data: null | undefined }) => {
+        this.postsService.getPosts(this.currentPage, this.postsPerPage);
+      });
   }
 
   pageChanged(event: PageEvent) {

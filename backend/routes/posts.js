@@ -18,7 +18,11 @@ router
 router
   .route("/:id")
   .get(postController.getPost)
-  .patch(uploader.single("image"), postController.uploadFile, postController.updateOne)
+  .patch(
+    uploader.single("image"),
+    postController.uploadFile,
+    postController.updateOne
+  )
   .delete(postController.deletePost);
 
 module.exports = router;
