@@ -28,12 +28,12 @@
         minlength="8"
         ngModel
       />
-      <mat-error *ngIf="signupForm.controls.password?.errors?.required"
-        >Please enter password.</mat-error
-      >
-      <mat-error *ngIf="signupForm.controls.password?.errors?.minlength"
-        >Password should be atleast 8 digits.</mat-error
-      >
+      <mat-error *ngIf="signupForm.controls.password?.errors?.required">
+        Please enter password.
+      </mat-error>
+      <mat-error *ngIf="signupForm.controls.password?.errors?.minlength">
+        Password should be atleast 8 digits.
+      </mat-error>
     </mat-form-field>
     <button mat-raised-button type="submit">SignUp</button>
   </form>

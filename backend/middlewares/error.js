@@ -4,7 +4,7 @@ const _ = require("lodash");
 const ErrorResponse = require("../utils/errorResponse");
 
 module.exports = (err, req, res, next) => {
-  console.log(err);
+  // console.log(err);
   let error = { ...err };
   if (err.name === "CastError") {
     const message = `Resource not Found`;
@@ -23,6 +23,6 @@ module.exports = (err, req, res, next) => {
 
   res.status(error.statusCode || 500).json({
     success: false,
-    message: error.message || "Something Broke",
+    message: err.message || "Something Broke",
   });
 };
