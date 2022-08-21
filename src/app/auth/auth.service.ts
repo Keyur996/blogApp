@@ -34,18 +34,34 @@ export class AuthService {
     return this.isAuthenticated;
   }
 
-  logIn(email: string, password: string) {
+  register(email: string, password: string) {
     const authData: AuthData = { email: email, password: password };
-    this.$http.post<any>(`${BACKEND_URL}/auth/login`, authData).subscribe(
+    this.$http.post<any>(`${BACKEND_URL}/users/signup`, authData).subscribe(
       (res) => {
         if(res.token) this.afterLogInProcess(res);
+        this.$router.navigate(["/"]);
+      },
+      error => {
+        this.authStatusListener.next(false);
+      }
+    );
+  }
+
+  logIn(email: string, password: string) {
+    const authData: AuthData = { email: email, password: password };
+    this.$http.post<any>(`${BACKEND_URL}/users/login`, authData).subscribe(
+      (res) => {
+        if(res.token) this.afterLogInProcess(res);
+      }, error => {
+        this.authStatusListener.next(false);
       }
     )
   }
 
-  afterLogInProcess({ token, user, expiresIn }): void {
+  private afterLogInProcess({ token, user, expiresIn }): void {
       this.setAuthTimer(expiresIn);
       this.isAuthenticated = true;
+      this.token = token;
       this.user = cloneDeep(user);
       this.authStatusListener.next(true);
       const now = new Date();
@@ -63,7 +79,7 @@ export class AuthService {
   }
 
   logOut() {
-    this.$http.get<{ success: boolean }>(`${BACKEND_URL}/auth/logout`).subscribe(({ success }) => {
+    this.$http.get<{ success: boolean }>(`${BACKEND_URL}/users/logout`).subscribe(({ success }) => {
       if(success) {
         this.token = null;
         this.isAuthenticated = false;

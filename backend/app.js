@@ -3,6 +3,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
+const cors = require("cors");
 const dotEnv = require("dotenv");
 const cookeParser = require("cookie-parser");
 // Global Error Handler
@@ -31,19 +32,7 @@ app.use(cookeParser());
 // expose static images file
 app.use("/images", express.static(path.join("backend/images")));
 
-// cors And set Headers
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PATCH, PUT, DELETE, OPTIONS"
-  );
-  next();
-});
+app.use(cors());
 
 app.use("/api/posts", require("./routes/posts"));
 app.use("/api/users", require("./routes/users"));
