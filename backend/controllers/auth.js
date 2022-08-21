@@ -4,6 +4,7 @@ const User = require("./../models/user");
 const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
 const ErrorResponse = require("../utils/errorResponse");
+const ms = require("ms");
 
 const signToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -24,6 +25,7 @@ const createSendToken = (user, statusCode, req, res) => {
   return res.status(statusCode).json({
     success: true,
     token,
+    expiresIn: ms(process.env.JWT_EXPIRE_IN),
     user,
   });
 };
@@ -51,3 +53,11 @@ exports.login = asyncHandler(async (req, res, next) => {
 
   createSendToken(user, 200, req, res);
 });
+
+exports.logout = (_req, res) => {
+  res.cookie('jwt', 'loggedout', {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true
+  });
+  return res.status(200).json({ success: true });
+};
