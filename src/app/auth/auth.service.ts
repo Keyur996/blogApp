@@ -58,6 +58,33 @@ export class AuthService {
     )
   }
 
+  autoAuth() {
+    const authInformation = this.getAuthData();
+    if(!authInformation) return;
+    const expiresIn = new Date(authInformation.expiration).getTime() - new Date().getTime();
+    if(expiresIn > 0) {
+      this.token = authInformation.token;
+      this.user = authInformation.user;
+      this.isAuthenticated = true;
+      this.authStatusListener.next(true);
+      this.setAuthTimer(expiresIn);
+    }
+  }
+
+  private getAuthData() {
+    const token = localStorage.getItem("token");
+    const expiration = localStorage.getItem("expiration");
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if(!token || !expiration || !user) {
+      return;
+    }
+
+    return {
+      token, expiration, user
+    }
+  }
+
   private afterLogInProcess({ token, user, expiresIn }): void {
       this.setAuthTimer(expiresIn);
       this.isAuthenticated = true;
